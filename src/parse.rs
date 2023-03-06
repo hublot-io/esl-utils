@@ -223,6 +223,17 @@ mod tests {
 
         let client = ParseClient::from_env();
         let formated = client.get_url("status".to_string());
-        assert!(formated == "PARSE_SERVER_URL/status".to_string());
+        assert!(formated == *"PARSE_SERVER_URL/status");
+    }
+
+
+    #[test]
+    fn get_client() {
+        let vars = get_env();
+        fill_env(vars.clone());
+
+        let parse = ParseClient::from_env();
+        let client = parse.get_client();
+        assert!(client.is_ok());
     }
 }
