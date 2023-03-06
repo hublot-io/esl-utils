@@ -1,0 +1,15 @@
+[package]
+name = "esl-utils"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1", features = ["derive"] }
+reqwest = { version = "0.11", features = ["json"] }
+custom_error = "1.9.2"
+http = "0.2.9"
+env_logger = "0.10.0"
+log = "0.4.17"
