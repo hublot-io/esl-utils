@@ -3,7 +3,6 @@ use http::{HeaderMap, HeaderValue};
 use log::{debug, info};
 use reqwest::{Client, StatusCode, Url};
 use serde::{Deserialize, Serialize};
-
 use std::{collections::HashMap, env, io};
 
 custom_error! {
@@ -106,7 +105,7 @@ impl ParseClient {
         let client = self.get_client()?;
         debug!(
             "Attempting to save ParseObject: {:?}",
-            serde_json::to_string(&data).unwrap()
+            serde_json::to_string(&data)
         );
         let response = client.post(self.get_url(path)).json(&data).send().await?;
         match response.status() {
