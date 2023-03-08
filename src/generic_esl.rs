@@ -14,40 +14,42 @@ pub struct GenericEsl {
     pub serial: String,
     pub printed: bool,
     #[serde(rename = "objectId")]
+    /// The item id.
+    ///
+    /// It only exists for Pricer Esls
     pub object_id: Option<String>,
-    /// The ESL  id.
+    /// The ESL id.
     ///
     /// It can be either a long string randomly generated for Hanshow or
-    /// a manually set id for Pricer
+    /// a barcode string for pricer
     #[serde(rename = "eslId")]
     pub id: String,
     pub nom: String,
     #[serde(rename = "nomScientifique")]
     pub nom_scientifique: String,
     pub prix: String,
-
     #[serde(rename = "infosPrix")]
     pub infos_prix: String,
-
     pub engin: Option<String>,
-
     pub zone: Option<String>,
-
     #[serde(rename = "zoneCode")]
     pub zone_code: Option<String>,
-
     #[serde(rename = "sousZone")]
     pub sous_zone: Option<String>,
-
     #[serde(rename = "sousZoneCode")]
     pub sous_zone_code: Option<String>,
-
     pub plu: String,
     pub taille: String,
     #[serde(rename = "congelInfos", skip_serializing_if = "Option::is_none")]
     pub congel_infos: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub origine: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub allergenes: Option<String>,
+
+    // peche/eleve/peche eau douce ....
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub production: Option<String>,
 }
 
 impl ParseObject for GenericEsl {
