@@ -53,7 +53,7 @@ pub struct GenericEsl {
 }
 
 impl ParseObject for GenericEsl {
-    async fn save(&self) -> Result<ParseCreated, ParseError> {
+     async fn save(&self) -> Result<ParseCreated, ParseError> {
         let client = ParseClient::from_env();
         client
             .save("parse/classes/GenericEsl".to_string(), &self)
@@ -61,7 +61,7 @@ impl ParseObject for GenericEsl {
     }
 
     /// Default search methods will aim to find non printed Esls for a specific serial
-    async fn find(serial: String) -> Result<Vec<Self>, ParseError>
+     async fn find(serial: String) -> Result<Vec<Self>, ParseError>
     where
         Self: Sized,
     {
@@ -74,7 +74,7 @@ impl ParseObject for GenericEsl {
             .await
     }
     /// We dont have to edit Esls Content, so edit will only change the printed status from fale to True
-    async fn update(&mut self) -> Result<Self, ParseError> {
+     async fn update(&mut self) -> Result<Self, ParseError> {
         if self.object_id.is_none() {
             return Err(ParseError::ObectId);
         }
