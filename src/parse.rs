@@ -31,7 +31,7 @@ pub trait ParseObject {
 #[derive(Clone)]
 pub struct ParseClient {
     pub(self) application_id: String,
-    pub(self) api_key: String,
+    pub(self) api_key: Option<String>,
     pub(self) server_url: String,
 }
 #[derive(Deserialize, Serialize)]
@@ -54,7 +54,7 @@ pub struct ParseErrorResponse {
 }
 /// A really basic ParsePlatform Rest API client
 impl ParseClient {
-    pub fn new(application_id: String, api_key: String, server_url: String) -> Self {
+    pub fn new(application_id: String, api_key: Option<String>, server_url: String) -> Self {
         Self {
             application_id,
             api_key,
@@ -67,10 +67,14 @@ impl ParseClient {
         let mut headers = HeaderMap::new();
         let application_id = HeaderValue::from_str(&self.application_id)
             .expect("Cannot encode application ID into a request header");
-        let api_key = HeaderValue::from_str(&self.api_key)
-            .expect("Cannot encode api key into a request header");
+        if let Some(api_key) = &self.api_key {
+            let key = HeaderValue::from_str(&api_key)
+                .expect("Cannot encode application key into a request header");
+            headers.append("X-Parse-REST-API-Key", key);
+        }
         headers.append("X-Parse-Application-Id", application_id);
-        headers.append("X-Parse-REST-API-Key", api_key);
+
+        println!("HEADERS {:?}", headers);
         debug!("Forged request headers Headers {:?}", headers);
         Ok(Client::builder().default_headers(headers).build()?)
     }
@@ -83,7 +87,7 @@ impl ParseClient {
     pub fn from_env() -> Self {
         let parse_application_id =
             env::var("PARSE_APPLICATION_ID").expect("env.PARSE_APPLICATION_ID is undefined");
-        let parse_api_key = env::var("PARSE_API_KEY").expect("env.PARSE_API_KEY is undefined");
+        let parse_api_key = env::var("PARSE_API_KEY").ok();
         let parse_server_url =
             env::var("PARSE_SERVER_URL").expect("env.PARSE_SERVER_URL is undefined");
         ParseClient::new(parse_application_id, parse_api_key, parse_server_url)
@@ -224,7 +228,6 @@ mod tests {
         let formated = client.get_url("status".to_string());
         assert!(formated == *"PARSE_SERVER_URL/status");
     }
-
 
     #[test]
     fn get_client() {
