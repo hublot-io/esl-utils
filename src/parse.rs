@@ -73,8 +73,6 @@ impl ParseClient {
             headers.append("X-Parse-REST-API-Key", key);
         }
         headers.append("X-Parse-Application-Id", application_id);
-
-        println!("HEADERS {:?}", headers);
         debug!("Forged request headers Headers {:?}", headers);
         Ok(Client::builder().default_headers(headers).build()?)
     }
