@@ -14,10 +14,12 @@ pub struct GenericEsl {
     pub serial: String,
     pub printed: bool,
     #[serde(rename = "objectId")]
+    pub object_id: Option<String>,
+    #[serde(rename = "itemId")]
     /// The item id.
     ///
     /// It only exists for Pricer Esls
-    pub object_id: Option<String>,
+    pub item_id: Option<String>,
     /// The ESL id.
     ///
     /// It can be either a long string randomly generated for Hanshow or
