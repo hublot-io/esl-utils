@@ -48,7 +48,8 @@ pub struct GenericEsl {
     pub origine: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allergenes: Option<String>,
-
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub label: Option<String>,
     // peche/eleve/peche eau douce ....
     #[serde(skip_serializing_if = "Option::is_none")]
     pub production: Option<String>,
