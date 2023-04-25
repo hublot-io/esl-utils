@@ -125,7 +125,6 @@ impl GenericEsl {
             serial,
             createdAt: date_query
         };
-        println!("{:?}", serde_json::to_string(&query));
         let client = ParseClient::from_env();
         client
             .fetch("parse/classes/GenericEsl".to_string(), query)
