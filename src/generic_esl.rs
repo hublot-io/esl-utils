@@ -76,6 +76,7 @@ impl ParseObject for GenericEsl {
             .fetch("parse/classes/GenericEsl".to_string(), query)
             .await
     }
+
     /// We dont have to edit Esls Content, so edit will only change the printed status from fale to True
      async fn update(&mut self) -> Result<Self, ParseError> {
         if self.object_id.is_none() {
@@ -96,4 +97,39 @@ impl ParseObject for GenericEsl {
         self.printed = true;
         Ok(self.clone())
     }
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct DateQuery{
+    #[serde(rename = "$gt")]
+    gt: String,
+    #[serde(rename = "$lt")]
+    lt: String
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct Query {
+    createdAt: DateQuery,
+    serial: String
+}
+
+impl GenericEsl {
+    /// Specific search methods will aim to find printed and non printed Esls for a specific serial for a specific date
+    pub async fn find_by_date(serial: String, start_date: String, end_date: String) -> Result<Vec<Self>, ParseError>
+    where
+        Self: Sized,
+    {
+        let date_query= DateQuery {
+            gt: start_date,
+            lt: end_date
+        };
+        let query = Query {
+            serial,
+            createdAt: date_query
+        };
+        println!("{:?}", serde_json::to_string(&query));
+        let client = ParseClient::from_env();
+        client
+            .fetch("parse/classes/GenericEsl".to_string(), query)
+            .await
+    }
+
 }

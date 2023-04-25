@@ -129,14 +129,13 @@ impl ParseClient {
     ///
     /// Query format: {"playerName":"Sean Plott","cheatMode":false, "score":{"$gte":1000,"$lte":3000}}}
     /// https://docs.parseplatform.org/rest/guide/#basic-queries
-    pub async fn fetch<T: for<'de> serde::Deserialize<'de>>(
+    pub async fn fetch<T: for<'de> serde::Deserialize<'de>, U : for<'de> serde::Serialize>(
         &self,
         path: String,
-        query: HashMap<String, String>,
+        query: U,
     ) -> Result<Vec<T>, ParseError> {
         let client = self.get_client()?;
         let payload = serde_json::to_string(&query)?;
-
         let mut url = Url::parse(&self.get_url(path)).map_err(|_e| ParseError::Url)?;
         url.query_pairs_mut().append_pair("where", &payload);
         let response = client.get(url).send().await?;
