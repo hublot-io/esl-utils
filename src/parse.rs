@@ -16,7 +16,8 @@ custom_error! {
         SerdeJson{source: serde_json::Error} = "An issue occured while converting the payload to JSON: {source}",
         Io{source: io::Error}= "An I/O error occured: {source}",
         Platform{ code: reqwest::StatusCode, cause: String} =  "An error occured sending log to ParsePlatform. status: {code}, cause: {cause}",
-        ObectId = "This ParseObject have no objectId, please create it first"
+        ObectId = "This ParseObject have no objectId, please create it first",
+        Error{source: tokio_postgres::Error} = "Postgres Error: {source}"
 }
 
 pub trait ParseObject {
@@ -129,7 +130,7 @@ impl ParseClient {
     ///
     /// Query format: {"playerName":"Sean Plott","cheatMode":false, "score":{"$gte":1000,"$lte":3000}}}
     /// https://docs.parseplatform.org/rest/guide/#basic-queries
-    pub async fn fetch<T: for<'de> serde::Deserialize<'de>, U : for<'de> serde::Serialize>(
+    pub async fn fetch<T: for<'de> serde::Deserialize<'de>, U: for<'de> serde::Serialize>(
         &self,
         path: String,
         query: U,

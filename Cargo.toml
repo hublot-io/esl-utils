@@ -13,3 +13,9 @@ custom_error = "1.9.2"
 http = "0.2.9"
 env_logger = "0.10.0"
 log = "0.4.17"
+bb8-postgres = "0.8.1"
+bb8 = "0.8.0"
+uuid =  { version = "0.8", features = ["v4"] }
+chrono = { version = "0.4.24", features = ["serde"] }
+tokio-postgres = { version = "0.7.7", features = ["with-chrono-0_4",  "with-uuid-0_8"]}
+postgres-types = { version = "0.2.5", features = ["derive",  "with-uuid-0_8" ] }
