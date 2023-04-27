@@ -141,7 +141,7 @@ impl GenericEsl {
                 &[&serial],
             )
             .await?;
-        let esls: Vec<GenericEsl> = rows.iter().map(|row| GenericEsl::from(row)).collect();
+        let esls: Vec<GenericEsl> = rows.iter().map(GenericEsl::from).collect();
         Ok(esls)
     }
 
@@ -157,7 +157,7 @@ impl GenericEsl {
             .await
             .expect("upload: cannot access to the conneciton pool");
         let rows = conn.query("SELECT * FROM esl WHERE serial=$1 AND createdAt > TO_TIMESTAMP($2,'YYYY-MM-DD HH24:MI:SS:MS') AND createdAt < TO_TIMESTAMP($3,'YYYY-MM-DD HH24:MI:SS:MS')",&[&serial,&start_date, &end_date]).await?;
-        let esls: Vec<GenericEsl> = rows.iter().map(|row| GenericEsl::from(row)).collect();
+        let esls: Vec<GenericEsl> = rows.iter().map(GenericEsl::from).collect();
         Ok(esls)
     }
 }

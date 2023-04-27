@@ -3,7 +3,7 @@ use http::{HeaderMap, HeaderValue};
 use log::{debug, info};
 use reqwest::{Client, StatusCode, Url};
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, env, io};
+use std::{env, io};
 
 custom_error! {
     /// An error that can occur when sending logs to ParsePlatform.
@@ -69,7 +69,7 @@ impl ParseClient {
         let application_id = HeaderValue::from_str(&self.application_id)
             .expect("Cannot encode application ID into a request header");
         if let Some(api_key) = &self.api_key {
-            let key = HeaderValue::from_str(&api_key)
+            let key = HeaderValue::from_str(api_key)
                 .expect("Cannot encode application key into a request header");
             headers.append("X-Parse-REST-API-Key", key);
         }
@@ -203,7 +203,7 @@ mod tests {
         let parse_api_key = vars[2];
         let client = ParseClient::from_env();
         assert!(client.application_id == parse_application_id);
-        assert!(client.api_key == parse_api_key);
+        assert!(client.api_key.unwrap() == parse_api_key);
         assert!(client.server_url == parse_server_url);
     }
 
