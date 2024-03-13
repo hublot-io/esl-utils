@@ -6,6 +6,7 @@ use crate::parse::{ParseClient, ParseCreated, ParseError, ParseObject};
 pub enum EslType {
     Hanshow,
     Pricer,
+    EasyVCO
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -53,6 +54,9 @@ pub struct GenericEsl {
     // peche/eleve/peche eau douce ....
     #[serde(skip_serializing_if = "Option::is_none")]
     pub production: Option<String>,
+    pub tva: Option<String>,
+    pub categorie: Option<i32>,
+    pub achats: Option<f32>,
 }
 
 impl ParseObject for GenericEsl {
