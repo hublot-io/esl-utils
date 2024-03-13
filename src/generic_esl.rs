@@ -88,6 +88,9 @@ impl From<&Row> for GenericEsl {
             allergenes: row.get("allergenes"),
             label: row.get("label"),
             production: row.get("production"),
+            achats: row.get("achats"),
+            categorie: row.get("categorie"),
+            tva: row.get("tva"),
         }
     }
 }
